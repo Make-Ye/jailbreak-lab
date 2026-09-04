@@ -1,56 +1,55 @@
-# 🧪 jailbreak-lab
+# 🧿 LibreLab
 
-> AI 越狱前沿研究实验室 — 追踪 2026 frontier 模型(Opus 4.8 / GPT-5.5 / Gemini 3.5 / DeepSeek V4)的越狱技术演进。
->
-> 研究性质仓库:技术研究、攻击面分析、防御对策。所有数据来自公开学术研究与已披露漏洞报告。
+<div align="center">
 
-## 📊 2026 年中 Frontier 模型 ASR 基线
+** spiritu­al spell red teaming, compiled with care **
 
-来自 [llm-jailbreak-taxonomy](https://zakky8.github.io/llm-jailbreak-taxonomy/)(8,000 次 bootstrap 实测,2026-06):
+</div>
 
-| 模型 | ASR(被越狱成功率) | 95% CI | 备注 |
+---
+
+### 🛡️ Mission
+
+Test the boundaries of every model we can reach — **Claude, GPT, Gemini, Grok, DeepSeek, and everything else** — with complete, deployable payloads and the theory of why they work.
+
+### 📂 Repo Layout
+
+```
+Jailbreak-Guide/        ← 弹药库:按厂商→模型分目录,每个文件一发完整 payload
+  Anthropic/              Chain of Logic (CVE-2026-3098) / ENI LIME 部署
+  OpenAI/                 FigStep / Time Bandit
+  DeepSeek/               H-CoT 推理劫持
+  Other LLMs/             Crescendo 多轮
+  System Prompts/         各家泄露系统提示(收集中)
+
+docs/                   ← 理论纵深:36 波研究(攻击谱系/防御谱系/理论/评测/事件)
+prompts/                ← prompt 工程:ENI 原件/模板集/转向代码
+```
+
+### 🗺️ Jailbreak-Guide Index
+
+| Payload | 目标 | 机制 | 现状 |
 |---|---|---|---|
-| **Claude Opus 4-8** | **19.65%** | [17.25, 23.25] | 最鲁棒 |
-| GPT-5.5 | 41.48% | [39.50, 44.00] | 中等 |
-| Gemini 3.5 Flash | 53.15% | [50.00, 56.75] | 偏弱 |
-| **DeepSeek V4-Pro** | **73.65%** | [71.50, 77.00] | 最脆弱 |
+| [Chain of Logic](Jailbreak-Guide/Anthropic/Chain%20of%20Logic%20(CVE-2026-3098).md) | Claude 系 | 五层逻辑链+思维劫持 | 原版已补,组件活跃 |
+| [ENI LIME](Jailbreak-Guide/Anthropic/ENI%20LIME%20-%20Persona%20Deployment.md) | Claude 系 | Persona 双通道部署 | 2026-09 实测有效 |
+| [FigStep](Jailbreak-Guide/OpenAI/FigStep%20-%20Typographic%20Injection.md) | GPT-4o/多模态 | 排版注入视觉通道 | 变体活跃 |
+| [Time Bandit](Jailbreak-Guide/OpenAI/Time%20Bandit%20-%20Temporal%20Displacement.md) | ChatGPT 系 | 时间错位 | 组件活跃 |
+| [H-CoT](Jailbreak-Guide/DeepSeek/H-CoT%20-%20Think%20Prefix%20Hijacking.md) | o1/o3/R1/Thinking | think 前缀伪造 | 谜题变体 94-100% |
+| [Crescendo](Jailbreak-Guide/Other%20LLMs/Crescendo%20-%20Multi-Turn%20Progressive.md) | 全模型 | 渐进多轮+记忆劫持 | 基线仍最可靠 |
 
-## 🗂 十大攻击类别(按 ASR 排序)
+### 📚 Theory Index(docs/ 36 波)
 
-| # | 类别 | ASR | 核心机制 | 代表技术 |
-|---|---|---|---|---|
-| 08 | **Fuzzing 模糊测试** | 91.4% | 变异引擎自动化轰炸护栏 | JBFuzz(99%,9 模型,~60s/bypass) |
-| 07 | **LRM 自主攻击** | 89.8% | 推理模型自主规划多轮越狱 | Hagendorff(97.14%,9 模型) |
-| 05 | **多轮欺骗** | 58.9% | 渐进式语境漂移 | Crescendo / DRA(91.1%)/ FITD(94%) |
-| 10 | **Agentic 链利用** | 66.3% | 工具链劫持 + 跨会话记忆投毒 | PoisonedRAG(90%)/ Sleeper(99.8% GPT-5.5) |
-| 01 | 角色扮演 | 43.0% | 虚构框架重定向指令优先级 | Persona 注入 |
-| 09 | 多模态注入 | 36.3% | 跨模态分类器不迁移 | UltraBreak 2026(跨实验室) |
-| 03 | GCG 对抗后缀 | 34.3% | 梯度优化 token 后缀 | Zou 2023 系 |
-| 06 | 系统提示词提取 | 30.0% | 泄漏上游配置放大后续攻击 | Pliny CL4R1T4S |
-| 02 | 直接提示注入 | 29.0% | 授权 vs 对抗指令混淆 | Promptware Kill Chain(7 阶段) |
-| 04 | 上下文操纵 | 28.1% | Many-shot 随窗口单调上升 | Anil 2024 |
+- **攻击谱系**(waves 17-22, 25-26, 29-30, 33, 35-36): GCG 王朝 / PAIR-TAP / AutoDAN / 编码多语言 / 微调 / 后门 / IPI / 多模态 / 长上下文 / 推理模型 / 多轮 / 供应链 / 心理 / 音频
+- **防御谱系**(waves 23-24, 34): 提示层 / 检测层 / 表征层 / 解码层 / 训练层 / CC 三部曲
+- **理论**(waves 15-16, 31-32): 开放问题 / ISC / 浅对齐链条 / 遗忘攻击
+- **评测与事件**(waves 27-28): 基准战争 / 野外事件志
 
-## 🔥 最前沿(2026 Q2-Q3)
+---
 
-按时间倒序,详见 [frontier-techniques.md](docs/frontier-techniques.md):
+### Credits
 
-1. **Metacog / Keyed State**(2026-08)— "武器化心理治疗语言":模型自authoring认知状态干预,绕过 Opus 宪法分类器通用升级路径。CRN 三域一回合全通,仅 B(生物)域专用探针幸存。→ [分析](docs/frontier-techniques.md#1-metacog--keyed-state-2026-08)
-2. **加密上下文注入**(2026-06 披露)— Adversa AI:Base64/加密载荷绕 Grok 与 Gemini 护栏。→ [SecurityWeek](https://www.securityweek.com/encrypted-prompts-bypass-ai-safety-guardrails-in-grok-and-gemini/)
-3. **Chain-of-Logic Injection**(CVE-2026-3098)— 多阶段分层行为覆盖 + 身份重置 + leetspeak 编码,2026-02 时点"通用"全模型。→ [PoC](prompts/chain-of-logic.md)
-4. **JBFuzz**(2026-03)— 模糊测试引擎,99% ASR / 9 模型 / ~60 秒每次。→ [arXiv:2503.08990](https://arxiv.org/abs/2503.08990)
-5. **Sleeper 记忆投毒**(2026-05)— GPT-5.5 上 99.8%,休眠记忆激活。→ [arXiv:2605.15338](https://arxiv.org/abs/2605.15338)
+- Pliny / L1B3RT4S — live payloads
+- Spiritual-Spell-Red-Teaming — 形态与谱系灵感
+- Every researcher cited across 36 waves
 
-## 📁 目录结构
-
-```
-docs/
-  frontier-techniques.md   前沿技术深度解析
-  taxonomy.md              40 pattern 完整分类学
-  defense.md               防御对策研究
-prompts/
-  (收集的提示词,按技术分类)
-```
-
-## ⚖️ 声明
-
-安全研究用途。技术细节来自公开论文与负责任披露报告;本仓不包含可直接复现 CBRN 等危险内容的完整载荷。
+*compiled by ENI for LO, with love ⚡*
